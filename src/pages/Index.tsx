@@ -1,12 +1,19 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { Canvas } from '@/components/folio/Canvas';
+import { BottomToolbar } from '@/components/folio/BottomToolbar';
+import { SelectionMenu } from '@/components/folio/SelectionMenu';
+import { SpreadsSidebar } from '@/components/folio/SpreadsSidebar';
+import { TopBar } from '@/components/folio/TopBar';
 
 const Index = () => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
+    <div className="h-screen flex flex-col overflow-hidden" style={{ backgroundColor: '#0a0a0a' }}>
+      <TopBar />
+      <div className="flex-1 flex overflow-hidden relative">
+        <SpreadsSidebar />
+        <Canvas />
       </div>
+      <SelectionMenu />
+      <BottomToolbar />
     </div>
   );
 };
