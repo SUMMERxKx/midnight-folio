@@ -38,33 +38,43 @@ export function DrawingLayer({ width, height, strokes }: Props) {
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
-  const handleMouseDown = useCallback((e: React.MouseEvent) => {
-    if (activeTool !== 'draw') return;
-    setIsDrawing(true);
-    currentStroke.current = [getPos(e)];
-  }, [activeTool]);
+  const handleMouseDown = useCallback(
+    (e: React.MouseEvent) => {
+      if (activeTool !== 'draw') return;
+      setIsDrawing(true);
+      currentStroke.current = [getPos(e)];
+    },
+    [activeTool],
+  );
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDrawing) return;
-    const pos = getPos(e);
-    currentStroke.current.push(pos);
-    const ctx = canvasRef.current?.getContext('2d');
-    if (!ctx || currentStroke.current.length < 2) return;
-    const pts = currentStroke.current;
-    ctx.beginPath();
-    ctx.strokeStyle = drawColor;
-    ctx.lineWidth = drawThickness;
-    ctx.lineCap = 'round';
-    ctx.moveTo(pts[pts.length - 2].x, pts[pts.length - 2].y);
-    ctx.lineTo(pos.x, pos.y);
-    ctx.stroke();
-  }, [isDrawing, drawColor, drawThickness]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDrawing) return;
+      const pos = getPos(e);
+      currentStroke.current.push(pos);
+      const ctx = canvasRef.current?.getContext('2d');
+      if (!ctx || currentStroke.current.length < 2) return;
+      const pts = currentStroke.current;
+      ctx.beginPath();
+      ctx.strokeStyle = drawColor;
+      ctx.lineWidth = drawThickness;
+      ctx.lineCap = 'round';
+      ctx.moveTo(pts[pts.length - 2].x, pts[pts.length - 2].y);
+      ctx.lineTo(pos.x, pos.y);
+      ctx.stroke();
+    },
+    [isDrawing, drawColor, drawThickness],
+  );
 
   const handleMouseUp = useCallback(() => {
     if (!isDrawing) return;
     setIsDrawing(false);
     if (currentStroke.current.length > 1) {
-      addDrawingStroke({ points: [...currentStroke.current], color: drawColor, thickness: drawThickness });
+      addDrawingStroke({
+        points: [...currentStroke.current],
+        color: drawColor,
+        thickness: drawThickness,
+      });
     }
     currentStroke.current = [];
   }, [isDrawing, drawColor, drawThickness, addDrawingStroke]);
@@ -78,7 +88,7 @@ export function DrawingLayer({ width, height, strokes }: Props) {
       style={{
         pointerEvents: activeTool === 'draw' ? 'auto' : 'none',
         cursor: activeTool === 'draw' ? 'crosshair' : 'default',
-        zIndex: activeTool === 'draw' ? 9999 : 0,
+        zIndex: 50,
       }}
       onMouseDown={handleMouseDown}
       onMouseMove={handleMouseMove}
