@@ -74,4 +74,11 @@
   .shadow-spine {
     box-shadow: 0 0 20px 8px rgba(0,0,0,0.6);
   }
+  .toolbar-scroll::-webkit-scrollbar {
+    display: none;
+  }
+  .toolbar-scroll {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
 }
